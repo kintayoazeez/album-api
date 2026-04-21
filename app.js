@@ -13,7 +13,11 @@ app.use('/api/albums', albumRoutes)
 
 // Connect to MongoDB and start server
 async function startServer() {
-  await mongoose.connect(process.env.MONGODB_URI)
+  await mongoose.connect(process.env.MONGODB_URI, {
+    tls: true,
+    tlsAllowInvalidCertificates: true,
+    serverSelectionTimeoutMS: 30000
+  })
   console.log('Connected to MongoDB!')
   const PORT = process.env.PORT || 3000
   app.listen(PORT, () => {
